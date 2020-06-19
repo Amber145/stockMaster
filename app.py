@@ -46,7 +46,7 @@ def handle_message(event):
 #event.gessage.text接收使用者文字訊息
 
     if(get == '?'):
-        message = TextSendMessage(text = 'test')
+        message = TextSendMessage(text = 'teasdst')
 
 
     line_bot_api.reply_message(event.reply_token, message)
