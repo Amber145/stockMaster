@@ -45,68 +45,8 @@ def handle_message(event):
     get = event.message.text
 #event.gessage.text接收使用者文字訊息
 
-    if(get == 'd'):
-        #print("Image Carousel")
-        message = TemplateSendMessage(
-        alt_text='ImageCarousel template',
-        template=ImageCarouselTemplate(
-            columns=[
-                ImageCarouselColumn(
-                    image_url='https://i.imgur.com/IbbQ1xo.jpg',
-                    action=MessageTemplateAction(
-                        label='postback1',
-                        text='postback text1'
-                    )
-                ),
-                ImageCarouselColumn(
-                    image_url='https://i.imgur.com/VQpvhMX.jpg',
-                    action=MessageTemplateAction(
-                        label='postback2',
-                        text='postback text2'
-                    )
-                )
-            ]
-        )
-        )
-    elif(get == 'Drama'):
-        #print("Image Carousel")
-        message = TemplateSendMessage(
-        alt_text = 'Drama for mobile.(updated irregularly)',
-        template = ImageCarouselTemplate(
-            columns = [
-                ImageCarouselColumn(
-                    image_url = 'https://img.edwardmovieclub.com/uploads/20200117230248_9.jpg',
-                    action = URITemplateAction(
-                        label = '不完美的正義',
-                        uri = 'http://www.777drama.com/vod/14/18320play.html?18320-1-3'
-                    )
-                ),
-                ImageCarouselColumn(
-                    image_url = 'https://pic.pimg.tw/q36genius/1571127285-4176158080_wn.jpg',
-                    action = URITemplateAction(
-                        label = '惡鄰布局',
-                        uri = 'http://www.5goup.com/user/getmovie/show/5c078cc7d55812466c8887c7'
-                    )
-                ),
-                ImageCarouselColumn(
-                    image_url = 'https://img.17365i.com/Uploads/vod/2018-04-09/5acade40d1202.webp',
-                    action = URITemplateAction(
-                        label = '噤界',
-                        uri = 'https://pttplay.com/vod-play-id-RjlB-src-1-num-6x.html'
-                    )
-                ),
-                ImageCarouselColumn(
-                    image_url = 'https://media.putyourself.in/pysiuploads/2019/10/event-the-garden-of-evening-mists-1118.jpg',
-                    action = URITemplateAction(
-                        label = '夕霧花園',
-                        uri = 'http://www.777drama.com/vod/14/19322play.html?19322-1-4'
-                    )
-                )
-            ]
-        )
-        )
-    else:
-        message = TextSendMessage(text = get)
+    if(get == '?'):
+        message = TextSendMessage(text = 'test')
 
 
     line_bot_api.reply_message(event.reply_token, message)
