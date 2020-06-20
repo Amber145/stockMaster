@@ -9,12 +9,7 @@ from linebot.exceptions import (
 from linebot.models import *
 
 import random
-import requests
-from bs4 import BeautifulSoup
-import json
-import datetime
-import time
-import pandas as pd
+
 
 
 app = Flask(__name__)
@@ -43,48 +38,16 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-# 抓到今天的時間
-now = datetime.datetime.now()
 
-# 先與網站請求抓到價格
-def getstock(stocknumber='2801.tw'):
-    url = 'http://61.220.30.176/GVE3/index.aspx' + stocknumber + '& =' + str(time.mktime(now.timetuple()))
-    list_req = requests.get(url)
-    soup = BeautifulSoup(list_req.content, "html.parser")
-    getjson=json.loads(soup.text)
-    
-    # 判斷請求是否成功
-    if getjson['stat'] != '很抱歉，沒有符合條件的資料!':
-        return [getjson['data']]
-    else:
-        return [] #請求失敗回傳空值
-    
-# 開始計算股票的平均以及標轉差
-def Standard_Deviation(stocknumber='2801.tw'):
-    stocklist = getstock(stocknumber)
-    
-    # 判斷是否為空值
-    if len(stocklist) != 0:
-        stockdf = pd.DataFrame(stocklist[0],columns=["昨收價","成交價","成交量","漲跌","漲跌幅","委買價","委賣價","委買量","委賣價","單位股數"])
-        stockAverage = pd.to_numeric(stockdf['成交價']).mean()
-        stockSTD = pd.to_numeric(stockdf['成交價']).std()
-        
-        # 看看這支股票現在是否便宜 (平均=兩倍標轉差)
-        buy='很貴不要買'
-        if pd.to_numeric(stockdf['成交價'][-1：]).values[0] < stockAverage - (2*stockSTD):
-            buy = '這支股票現在很便宜喔!'
-            
-        # 顯示結果
-        print("成交價 = ' + stockdf['成交價'][-1:].values[0])
-        print('\n中間價 = ' + str(stockAverage))
-        print('\線距 = ' + str(stockSTD))
-        print(buy)
-    else:
-        print('請求失敗，請您的股票代號')
+# 處理訊息
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    get = event.message.text
+#event.gessage.text接收使用者文字資訊
 
-Standard_Deviation(stocknumber='2081.tw')
+    if(get == '?'):
+        message = TextSendMessage(text = '?')
            
-
 
     line_bot_api.reply_message(event.reply_token, message)
 
