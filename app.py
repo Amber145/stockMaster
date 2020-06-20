@@ -54,7 +54,7 @@ def getstock(stocknumber='2801.tw'):
     getjson=json.loads(soup.text)
     
     # 判斷請求是否成功
-    if getjson['stat'] != '很報前，沒有符合條件的資料!':
+    if getjson['stat'] != '很抱歉，沒有符合條件的資料!':
         return [getjson['data']]
     else:
         return [] #請求失敗回傳空值
